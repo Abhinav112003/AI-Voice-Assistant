@@ -1,56 +1,107 @@
-F.R.I.D.A.Y - Personal Voice Assistant
-F.R.I.D.A.Y is a Python-based personal voice assistant that can perform various tasks like opening websites, sending emails, playing music, fetching current time/date, and providing motivational quotes. It can also retrieve data from Wolfram Alpha or Wikipedia.
+# README for Python Voice Assistant (FRIDAY)
 
-Features
-Voice Recognition: Uses SpeechRecognition library to capture and recognize voice commands.
-Text-to-Speech (TTS): Uses Pyttsx3 to convert text responses into speech.
-Web Browsing: Opens websites like YouTube, Google, and Gmail.
-Email Sending: Sends emails via SMTP after recognizing the recipient and content.
-Music Playback: Plays random or specific tracks from a predefined music folder.
-Motivational Quotes: Provides random motivational quotes.
-Wolfram Alpha & Wikipedia Queries: Fetches information from Wolfram Alpha (if available) or Wikipedia.
-Current Time & Date: Tells the current time or date.
-Greetings: Offers personalized greetings based on the time of day.
-Requirements
-To run this assistant, you need to install the following Python packages:
+## Overview
+This project implements a personal voice assistant named **FRIDAY** using Python libraries such as `pyttsx3`, `speech_recognition`, `webbrowser`, `wikipedia`, `datetime`, `wolframalpha`, and others. FRIDAY is designed to listen to voice commands, perform tasks, and respond with spoken replies. It can open websites, fetch information from Wikipedia or WolframAlpha, play music, and more.
 
-pyttsx3: For text-to-speech conversion
-bash
-Copy code
-pip install pyttsx3
-webbrowser: To open websites
-smtplib: For sending emails via SMTP
-random: To randomly select motivational quotes or music
-speech_recognition: For recognizing spoken commands
-bash
-Copy code
-pip install SpeechRecognition
-wikipedia: To retrieve summaries from Wikipedia
-bash
-Copy code
-pip install wikipedia
-wolframalpha: For fetching results from Wolfram Alpha
-bash
-Copy code
-pip install wolframalpha
-Setup
-Wolfram Alpha API: You need to create a Wolfram Alpha account and obtain an API key. Replace 'LRWJW6' in the script with your own key.
-SMTP Email Settings: Configure the smtplib settings to match your email credentials (Username, Password).
-Music Folder: Add your music files to the directory specified in music_folder.
-Usage
-Run the script in your Python environment.
-The assistant will greet you and ask for commands.
-Speak into your microphone to give commands. F.R.I.D.A.Y will recognize the command and execute the appropriate task.
-Supported commands:
-Open websites: "open youtube", "open google", "open gmail"
-Ask for time/date: "what time is it", "what date is it"
-Play music: "play music", "play english songs", "play tamil songs", etc.
-Send an email: "email me", etc.
-Get motivational quotes: "Tell me motivation quotes", "motivate me"
-Search information: Any general query will be fetched via Wolfram Alpha or Wikipedia.
-Customization
-You can modify the list of motivational quotes or music tracks in the corresponding sections.
-You can add more functions or improve existing ones by expanding the command checks inside the if-elif block.
-Notes
-Ensure that your microphone and speakers are properly set up for voice recognition and TTS functionalities.
-You can modify or extend the functionalities by adding new commands and integrating additional APIs.
+## Features
+### Voice Commands Supported:
+1. **Opening Websites**: FRIDAY can open:
+   - YouTube (`open youtube`)
+   - Google (`open google`)
+   - Gmail (`open gmail`)
+   
+2. **Check the Time/Date**: FRIDAY will tell you the current time or date with commands like:
+   - "What time is it?"
+   - "What date is it?"
+
+3. **Conversations**: 
+   - You can ask FRIDAY how it's doing ("How are you?" or "What's up?").
+   - FRIDAY also responds to a simple "Hello."
+
+4. **Motivational Quotes**: If you need a boost, ask for motivational quotes:
+   - "Tell me motivation quotes."
+   - "Motivate me."
+
+5. **Send Email**: 
+   - Command: "Email" followed by recipient and message.
+   - Requires configuration of the email credentials.
+
+6. **Play Music**: FRIDAY can play specific music files based on the language or general request.
+   - "Play music" or "Play songs"
+   - Specific music by language: "Play English music", "Play Tamil music", "Play Hindi music"
+
+7. **General Search**: FRIDAY can search for answers using WolframAlpha or Wikipedia:
+   - If it fails to find information, it will redirect to Google search.
+
+8. **End the Session**: FRIDAY can stop if you say:
+   - "Nothing", "Abort", "Stop", or "Bye."
+
+## Prerequisites
+Ensure that the following Python libraries are installed:
+```bash
+pip install pyttsx3 SpeechRecognition wikipedia wolframalpha
+```
+
+### Additional Configuration:
+1. **WolframAlpha API**: 
+   - Replace `'LRWJW6'` with your own WolframAlpha API key. Sign up [here](https://developer.wolframalpha.com/).
+   
+2. **Email Setup**: 
+   - Update the following with your Gmail credentials to enable email functionality:
+     ```python
+     server.login("Your_Username", 'Your_Password')
+     server.sendmail('Your_Username', "Recipient_Username", content)
+     ```
+
+3. **Music Folder**: 
+   - Update the path `'S:\\AI\\music\\'` to point to your music folder.
+
+## How It Works
+
+### 1. Initialization:
+- The voice assistant uses `pyttsx3` to convert text to speech.
+- The assistant greets you based on the time of day using `datetime`.
+
+### 2. Voice Input:
+- It listens for voice commands using `speech_recognition` and converts them to text for processing.
+
+### 3. Command Processing:
+- Based on the recognized command, FRIDAY performs a corresponding action (e.g., opening a website, searching for information, playing music).
+
+### 4. Responding to Queries:
+- For general knowledge queries, it uses WolframAlpha or Wikipedia to fetch and speak the answers.
+- For motivational quotes, random quotes are provided from a predefined list.
+
+### 5. Continuous Listening:
+- After every action, FRIDAY asks for further commands and continues listening until the user says a termination command.
+
+## Customization:
+- **Modify the Voice**: Change the voice engine settings in the following lines:
+   ```python
+   voices = engine.getProperty('voices')
+   engine.setProperty('voice', voices[len(voices)-1].id)
+   ```
+   To change the voice, try using different indexes for `voices[]`.
+   
+- **Add New Commands**: You can easily extend FRIDAY by adding new `elif` conditions in the main loop.
+
+## Example Use Case:
+- User: "Open YouTube"
+- FRIDAY: Opens YouTube in the default browser.
+
+- User: "What time is it?"
+- FRIDAY: Tells the current time.
+
+- User: "Play English music."
+- FRIDAY: Plays a random English song from the specified music folder.
+
+## Known Issues:
+- **Speech Recognition Errors**: In noisy environments, speech recognition may fail to correctly interpret the commands.
+- **Email Sending**: Requires proper configuration and may not work if Google blocks the sign-in attempt. Make sure to allow less secure apps to sign in if using Gmail.
+
+## How to Run:
+1. Install all required libraries.
+2. Configure the email and WolframAlpha keys.
+3. Run the script.
+4. Speak commands to interact with FRIDAY!
+
